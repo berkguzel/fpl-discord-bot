@@ -1,27 +1,25 @@
 package main
 
 import (
-
 	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
 
 	"github.com/bwmarrin/discordgo"
-	
-
 )
 
 // Variables used for command line parameters
-var (
-	Token = ""
-)
+
 
 func main() {
 
-
+	token, _, err := flag()
+	if err != nil {
+		fmt.Println(err)
+	}
 	// Create a new Discord session using the provided bot token.
-	dg, err := discordgo.New("Bot " + "ODE2ODA2MjcxMjkwMDQ4NTUy.YEAUHg.361o6ySrCo430fxIN2-F0tAGcQg")
+	dg, err := discordgo.New("Bot " + token)
 	if err != nil {
 		fmt.Println("error creating Discord session,", err)
 		return
@@ -50,7 +48,3 @@ func main() {
 	// Cleanly close down the Discord session.
 	dg.Close()
 }
-
-
-
-

@@ -1,37 +1,48 @@
 package main
 
 import (
-	"github.com/bwmarrin/discordgo"
+	"fmt"
 	fpl "github.com/berkguzel/fpl-discord-bot/fplbot"
+	"github.com/bwmarrin/discordgo"
+	"strings"
 )
 
 var (
 	message string
-	
+	id      string
+	name    string
 )
 
-func parseMessage(args string) string{
+func parseMessage(message string) string {
 
-	command := string(args[3])
-	message = string(args[5:])
+	parse := strings.Fields(string(message[3:])) 
 
-	if command == "t" {
-		msg, err := fpl.Team(message, )
+	command := parse[0]
+
+	if command == "m" {
+
+		name = parse[1]
+		id := parse[0]
+
+		msg, err := fpl.Manager(id, name)
 		if err != nil {
-			return ""
+			fmt.Println(err)
 		}
+
 		return msg
 	}
 
 	return ""
 
 }
+
 // TODO detect empty strings
-func parseCommand(args string) (string) {
+func parseCommand(message string) string {
 
+	_, leagueID, _ := flag() 
+	if message == "!standings" {
 
-	if args == "!standings" {
-		msg, err := fpl.Standings("1859418")
+		msg, err := fpl.Standings(leagueID)
 		if err != nil {
 			return ""
 		}
@@ -39,22 +50,21 @@ func parseCommand(args string) (string) {
 		return msg
 	}
 
-	if string(args[0:9]) == "!leagueID" {
+	if message == "!help" {
 
-		leagueID := string(args[9:])
-		var c fpl.Client
-		c.AuthFPL(leagueID, "")
+		msg := help()
+
+		return msg
 	}
 
-	if string(args[0:10]) == "!managerID" {
-
-		var manager map[string]string
-		managerID := string(args[10:])
-		var c fpl.Client
-		c.AuthFPL("", managerID)
-		manager["first"] = managerID
+	if message == "!Yine ibneleşti" {
+		return "galatasaray"
 	}
-	
+
+	if message == "!Zaten hep ibneydi" {
+		return "galatasaray"
+	}
+
 
 	return ""
 }
@@ -63,18 +73,17 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 	// Ignore all messages created by the bot itself
 	// This isn't required in this specific example but it's a good practice.
 	if m.Author.ID == s.State.User.ID {
-		return 
+		return
 	}
-	
+
 	if string(m.Content[0]) == "!" && len(m.Content) > 4 {
 
 		if string(m.Content[2]) == "-" {
-			s.ChannelMessageSend(m.ChannelID, parseMessage(string(m.Content))) 
+			s.ChannelMessageSend(m.ChannelID, parseMessage(string(m.Content)))
 		} else {
 			s.ChannelMessageSend(m.ChannelID, parseCommand(string(m.Content)))
 		}
 
-	} 
+	}
 
-	
 }

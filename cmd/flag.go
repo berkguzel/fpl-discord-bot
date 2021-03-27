@@ -1,4 +1,4 @@
-package main 
+package main
 
 import (
 	"os"
@@ -6,9 +6,8 @@ import (
 
 func flag() (string, string, error) {
 
-	managerID := os.Getenv("MANAGER_ID")
+	token := os.Getenv("TOKEN")
+	leagueID := os.Getenv(("LEAGUE_ID"))
 
-	leagueID := os.Getenv("LEAGUE_ID")
-
-	return managerID, leagueID, nil
+	return token, leagueID, nil
 }
