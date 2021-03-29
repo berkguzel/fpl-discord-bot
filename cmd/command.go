@@ -2,29 +2,39 @@ package main
 
 import (
 	"fmt"
+	"strings"
+
 	fpl "github.com/berkguzel/fpl-discord-bot/fplbot"
 	"github.com/bwmarrin/discordgo"
-	"strings"
 )
 
-var (
-	message string
-	id      string
-	name    string
-)
 
 func parseMessage(message string) string {
 
+	var name string
 	parse := strings.Fields(string(message[3:])) 
+	
+	_, leagueID, err := flag()
+	if err != nil {
+		return ""
+	}
 
 	command := parse[0]
-
 	if command == "m" {
 
-		name = parse[1]
-		id := parse[0]
+		if len(parse) > 2 {
+			name = parse[1]
+			for i := 2; i < len(parse); i++ {
 
-		msg, err := fpl.Manager(id, name)
+				name = name + " " + parse[i]
+
+			}
+		} else {
+			name = parse[1]
+
+		}
+
+		msg, err := fpl.Manager(leagueID, name)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -39,7 +49,11 @@ func parseMessage(message string) string {
 // TODO detect empty strings
 func parseCommand(message string) string {
 
-	_, leagueID, _ := flag() 
+	_, leagueID, err := flag()
+	if err != nil {
+		return ""
+	}
+
 	if message == "!standings" {
 
 		msg, err := fpl.Standings(leagueID)
@@ -50,24 +64,27 @@ func parseCommand(message string) string {
 		return msg
 	}
 
-	if message == "!help" {
+	if message == "!thisweek" {
 
-		msg := help()
+		msg, err := fpl.ThisWeek(leagueID)
+		if err != nil {
+			return ""
+		}
 
 		return msg
 	}
 
-	if message == "!Yine ibneleşti" {
-		return "galatasaray"
-	}
+	if message == "!help" {
 
-	if message == "!Zaten hep ibneydi" {
-		return "galatasaray"
+		msg := help()
+		return msg
 	}
-
 
 	return ""
 }
+
+
+
 func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	// Ignore all messages created by the bot itself
