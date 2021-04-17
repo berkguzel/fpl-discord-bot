@@ -2,18 +2,19 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 
 	fpl "github.com/berkguzel/fpl-discord-bot/fplbot"
 	"github.com/bwmarrin/discordgo"
 )
 
-
 func parseMessage(message string) string {
 
 	var name string
-	parse := strings.Fields(string(message[3:])) 
-	
+	var msg string
+	parse := strings.Fields(string(message[3:]))
+
 	_, leagueID, err := flag()
 	if err != nil {
 		return ""
@@ -38,6 +39,13 @@ func parseMessage(message string) string {
 		if err != nil {
 			fmt.Println(err)
 		}
+
+		return msg
+	}
+
+	if command == "f" {
+		gameWeek, _ := strconv.Atoi(parse[1])
+		msg = fpl.GetFixture(gameWeek)
 
 		return msg
 	}
@@ -82,8 +90,6 @@ func parseCommand(message string) string {
 
 	return ""
 }
-
-
 
 func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 

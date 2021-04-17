@@ -1,9 +1,9 @@
 package fplbot
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
-	"errors"
 
 	"github.com/enescakir/emoji"
 )
@@ -28,7 +28,7 @@ func Manager(leagueID string, teamName string) (string, error) {
 	if err != nil {
 		return "", errors.New("Could not find the manager id")
 	}
-	
+
 	m, err := c.GetManager(strconv.Itoa(id))
 	if err != nil {
 		return "", errors.New("Could not find the manager")

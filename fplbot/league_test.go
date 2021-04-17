@@ -6,12 +6,11 @@ import (
 
 func TestStandings(t *testing.T) {
 
-	var test = []string {
-		"aa", "", "---", 
+	var test = []string{
+		"aa", "", "---",
 		"***", "    .",
 	}
 
-	
 	for _, v := range test {
 
 		got, _ := Standings(v)
@@ -27,6 +26,5 @@ func TestStandings(t *testing.T) {
 }
 
 func TestThisWeek(t *testing.T) {
-
 
 }

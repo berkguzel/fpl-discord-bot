@@ -6,7 +6,7 @@ import (
 
 func TestParseMessage(t *testing.T) {
 
-	var test = []string {
+	var test = []string{
 		"! -m *****", "!-m-m",
 		"!!!!!!!!!!!!!!!!!!!!!!!!!!", "!-m!!!",
 	}
@@ -21,8 +21,8 @@ func TestParseMessage(t *testing.T) {
 }
 
 func TestParseCommand(t *testing.T) {
-	
-	var test = []string {
+
+	var test = []string{
 		"!helppp", "!thsiweek",
 		"!standdings", "!standssss",
 		"!11111111111111111111",

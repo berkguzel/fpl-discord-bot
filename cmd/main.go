@@ -11,14 +11,13 @@ import (
 
 // Variables used for command line parameters
 
-
 func main() {
 
 	token, _, err := flag()
 	if err != nil {
-		return 
+		return
 	}
-	
+
 	// Create a new Discord session using the provided bot token.
 	dg, err := discordgo.New("Bot " + token)
 	if err != nil {
