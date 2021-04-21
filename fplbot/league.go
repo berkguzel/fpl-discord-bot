@@ -60,7 +60,7 @@ func ThisWeek(leagueID string) (string, error) {
 			count = m.SummaryEventPoints
 			leader = v.EntryName
 		}
-		
+
 		message = message + fmt.Sprintf("%s	%d \n", v.EntryName, m.SummaryEventPoints)
 
 	}

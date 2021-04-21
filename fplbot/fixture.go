@@ -52,7 +52,7 @@ func GetFixture(gameWeek int) string {
 	var message string
 
 	for _, v := range fixture[0] {
-		if v.Event == float64(33) {
+		if v.Event == float64(gameWeek) {
 			home, away = GetTeam(v.TeamH, v.TeamA)
 			kickoffTime = fmt.Sprintf("%v", v.KickoffTime)
 			message = message + "\n" + string(emoji.SoccerBall) + home + " " + "-" + " " + away + "  " +
